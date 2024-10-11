@@ -55,6 +55,9 @@ export default {
 	themeColorCode: "",
 	scopes: [
 		{
+			name: "core",
+		},
+		{
 			name: "config",
 		},
 		{

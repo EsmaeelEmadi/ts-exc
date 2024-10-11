@@ -7,6 +7,7 @@ export default {
 			2,
 			"always",
 			[
+				"core",
 				"config",
 				"deps",
 				"scripts",
@@ -74,6 +75,9 @@ export default {
 		aiNumber: 1,
 		themeColorCode: "",
 		scopes: [
+			{
+				name: "core",
+			},
 			{
 				name: "config",
 			},
