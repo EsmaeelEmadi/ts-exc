@@ -1,6 +1,6 @@
 {
 	"name": "ts-exc",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "ts exception",
 	"main": "index.ts",
 	"type": "module",
