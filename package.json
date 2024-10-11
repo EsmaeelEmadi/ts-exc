@@ -1,0 +1,85 @@
+{
+	"name": "ts-boilerplate",
+	"version": "0.1.0",
+	"description": "typescript boilerplate",
+	"type": "module",
+	"scripts": {
+		"prepare": "husky",
+		"lint": "eslint ./src/ --fix",
+		"typecheck": "tsc --noEmit",
+		"precommit": "lint-staged",
+		"cm": "git-cz",
+		"release": "release-it"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/EsmaeelEmadi/ts-boilerplate.git"
+	},
+	"keywords": [
+		"typescript",
+		"boilerplate",
+		"git"
+	],
+	"author": "emad",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/EsmaeelEmadi/ts-boilerplate/issues"
+	},
+	"homepage": "https://github.com/EsmaeelEmadi/ts-boilerplate#readme",
+	"devDependencies": {
+		"@commitlint/cli": "^19.5.0",
+		"@commitlint/config-conventional": "^19.5.0",
+		"@eslint/js": "^9.12.0",
+		"@release-it/conventional-changelog": "^8.0.2",
+		"@types/node": "^22.7.5",
+		"cz-conventional-changelog": "^3.3.0",
+		"cz-git": "^1.10.1",
+		"eslint": "^9.12.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"globals": "^15.11.0",
+		"husky": "^9.1.6",
+		"lint-staged": "^15.2.10",
+		"prettier": "^3.3.3",
+		"release-it": "^17.8.2",
+		"semantic-release": "^24.1.2",
+		"typescript": "^5.5.4",
+		"typescript-eslint": "^8.8.1"
+	},
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-git",
+			"czConfig": "./cz.config.mjs"
+		}
+	},
+	"release-it": {
+		"git": {
+			"commitMessage": "chore: release v${version}"
+		},
+		"github": {
+			"release": true
+		},
+		"npm": {
+			"publish": false
+		},
+		"plugins": {
+			"@release-it/conventional-changelog": {
+				"infile": "CHANGELOG.md",
+				"preset": {
+					"name": "conventionalcommits",
+					"types": [
+						{
+							"type": "feat",
+							"section": "Features"
+						},
+						{
+							"type": "fix",
+							"section": "Bug Fixes"
+						},
+						{}
+					]
+				}
+			}
+		}
+	}
+}
