@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EsmaeelEmadi/ts-boilerplate.git"
+    "url": "git+https://github.com/EsmaeelEmadi/ts-exc.git"
   },
   "keywords": [
     "typescript",
@@ -26,9 +26,9 @@
   "author": "emad",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/EsmaeelEmadi/ts-boilerplate/issues"
+    "url": "https://github.com/EsmaeelEmadi/ts-exc/issues"
   },
-  "homepage": "https://github.com/EsmaeelEmadi/ts-boilerplate#readme",
+  "homepage": "https://github.com/EsmaeelEmadi/ts-exc#readme",
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^19.5.0",
