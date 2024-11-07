@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare": "husky",
-    "lint": "eslint ./src/ --fix",
+    "lint": "biome ./src/ --fix",
     "typecheck": "tsc --noEmit",
     "precommit": "lint-staged && npm test",
     "cm": "git-cz",
@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/EsmaeelEmadi/ts-boilerplate#readme",
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@release-it/conventional-changelog": "^8.0.2",
@@ -73,8 +74,7 @@
             {
               "type": "fix",
               "section": "Bug Fixes"
-            },
-            {}
+            }
           ]
         }
       }
