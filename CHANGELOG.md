@@ -1,5 +1,12 @@
 
 
+## 0.0.0 (2024-11-08)
+
+
+### Bug Fixes
+
+* **ci:** skip precommit hooks in ci ([de2305f](https://github.com/EsmaeelEmadi/ts-exc/commit/de2305fa4f5108317987ac32ab3129d51b4dc343))
+
 ## 0.1.0 (2024-10-11)
 
 
