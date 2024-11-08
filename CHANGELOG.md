@@ -1,5 +1,12 @@
 
 
+## 0.0.1 (2024-11-08)
+
+
+### Bug Fixes
+
+* **ci:** publish to npm issues ([d64b003](https://github.com/EsmaeelEmadi/ts-exc/commit/d64b003c2106b51bcd81757ccf32af6c5ecf0190))
+
 ## 0.0.0 (2024-11-08)
 
 
