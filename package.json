@@ -1,96 +1,93 @@
 {
-  "name": "ts-boilerplate",
-  "version": "0.0.0-semantic-release",
-  "description": "typescript boilerplate",
-  "type": "module",
-  "scripts": {
-    "prepare": "husky",
-    "lint": "biome ./src/ --fix",
-    "typecheck": "tsc --noEmit",
-    "precommit": "lint-staged && npm test",
-    "cm": "git-cz",
-    "release": "release-it",
-    "test": "vitest --run",
-    "test:watch": "vitest --watch",
-    "coverage": "vitest run --coverage"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EsmaeelEmadi/ts-exc.git"
-  },
-  "keywords": [
-    "typescript",
-    "boilerplate",
-    "git"
-  ],
-  "author": "emad",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/EsmaeelEmadi/ts-exc/issues"
-  },
-  "homepage": "https://github.com/EsmaeelEmadi/ts-exc#readme",
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
-    "@release-it/conventional-changelog": "^8.0.2",
-    "@types/node": "^22.7.5",
-    "cz-conventional-changelog": "^3.3.0",
-    "cz-git": "^1.10.1",
-    "globals": "^15.11.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "release-it": "^17.8.2",
-    "semantic-release": "^24.1.2",
-    "typescript": "^5.5.4",
-    "vitest": "^2.1.3"
-  },
-  "config": {
-    "commitizen": {
-      "path": "node_modules/cz-git",
-      "czConfig": "./cz.config.mjs"
-    }
-  },
-  "release-it": {
-    "git": {
-      "commitMessage": "chore: release v${version}"
-    },
-    "github": {
-      "release": true
-    },
-    "npm": {
-      "publish": false
-    },
-    "plugins": {
-      "@release-it/conventional-changelog": {
-        "infile": "CHANGELOG.md",
-        "preset": {
-          "name": "conventionalcommits",
-          "types": [
-            {
-              "type": "feat",
-              "section": "Features"
-            },
-            {
-              "type": "fix",
-              "section": "Bug Fixes"
-            }
-          ]
-        }
-      }
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,cjs,mjs,d.cts,d.mts,jsx,tsx,json,jsonc}": [
-      "biome check --files-ignore-unknown=true",
-      "biome check --write --no-errors-on-unmatched",
-      "biome check --write --organize-imports-enabled=false --no-errors-on-unmatched",
-      "biome check --write --unsafe --no-errors-on-unmatched",
-      "biome format --write --no-errors-on-unmatched",
-      "biome lint --write --no-errors-on-unmatched"
-    ],
-    "*": [
-      "biome check --no-errors-on-unmatched --files-ignore-unknown=true"
-    ]
-  }
+	"name": "ts-boilerplate",
+	"version": "0.0.0-semantic-release",
+	"description": "typescript boilerplate",
+	"type": "module",
+	"scripts": {
+		"build": "tsup ./src",
+		"clean": "rm -rf ./lib/",
+		"prepare": "husky",
+		"lint": "biome . --fix",
+		"typecheck": "tsc --noEmit",
+		"precommit": "lint-staged && npm test",
+		"cm": "git-cz",
+		"release": "release-it",
+		"test": "vitest --run",
+		"test:watch": "vitest --watch",
+		"coverage": "vitest run --coverage"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/EsmaeelEmadi/ts-exc.git"
+	},
+	"keywords": ["typescript", "boilerplate", "git"],
+	"author": "emad",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/EsmaeelEmadi/ts-exc/issues"
+	},
+	"homepage": "https://github.com/EsmaeelEmadi/ts-exc#readme",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"@commitlint/cli": "^19.5.0",
+		"@commitlint/config-conventional": "^19.5.0",
+		"@release-it/conventional-changelog": "^8.0.2",
+		"@types/node": "^22.7.5",
+		"cz-conventional-changelog": "^3.3.0",
+		"cz-git": "^1.10.1",
+		"globals": "^15.11.0",
+		"husky": "^9.1.6",
+		"lint-staged": "^15.2.10",
+		"release-it": "^17.8.2",
+		"semantic-release": "^24.1.2",
+		"tsup": "^8.3.5",
+		"typescript": "^5.5.4",
+		"vitest": "^2.1.3"
+	},
+	"config": {
+		"commitizen": {
+			"path": "node_modules/cz-git",
+			"czConfig": "./cz.config.mjs"
+		}
+	},
+	"release-it": {
+		"git": {
+			"commitMessage": "chore: release v${version}"
+		},
+		"github": {
+			"release": true
+		},
+		"npm": {
+			"publish": false
+		},
+		"plugins": {
+			"@release-it/conventional-changelog": {
+				"infile": "CHANGELOG.md",
+				"preset": {
+					"name": "conventionalcommits",
+					"types": [
+						{
+							"type": "feat",
+							"section": "Features"
+						},
+						{
+							"type": "fix",
+							"section": "Bug Fixes"
+						}
+					]
+				}
+			}
+		}
+	},
+	"files": ["dist", "package.json"],
+	"exports": {
+		".": {
+			"require": "./dist/index.js",
+			"import": "./dist/index.js",
+			"types": "./dist/index.d.ts"
+		}
+	},
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts"
 }
