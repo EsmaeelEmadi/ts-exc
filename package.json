@@ -1,7 +1,7 @@
 {
-	"name": "ts-boilerplate",
+	"name": "ts-exc",
 	"version": "0.0.0-semantic-release",
-	"description": "typescript boilerplate",
+	"description": "typescript exception",
 	"type": "module",
 	"scripts": {
 		"build": "tsup ./src",
@@ -20,7 +20,7 @@
 		"type": "git",
 		"url": "git+https://github.com/EsmaeelEmadi/ts-exc.git"
 	},
-	"keywords": ["typescript", "boilerplate", "git"],
+	"keywords": ["typescript", "exception"],
 	"author": "emad",
 	"license": "MIT",
 	"bugs": {
