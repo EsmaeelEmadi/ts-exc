@@ -1,7 +1,9 @@
-import { describe, it, expect, vi } from "vitest";
-import { Exception } from "../exception/Exception";
+import { describe, expect, it, vi } from "vitest";
 import { BaseException } from "../baseException/BaseException";
-import { TMiddleware } from "../types";
+import { Exception } from "../exception/Exception";
+
+// types
+import type { TMiddleware } from "../types";
 
 const mockMiddleware: TMiddleware<BaseException> = vi.fn((_, next) => {
 	next();
@@ -27,11 +29,11 @@ describe("Exception Class", () => {
 
 	it("should call middlewares in the correct order (global first, then instance)", () => {
 		const globalMiddleware1: TMiddleware<BaseException> = vi.fn((exc, next) => {
-			exc.message = exc.message + " first";
+			exc.message = `${exc.message} first`;
 			next();
 		});
 		const globalMiddleware2: TMiddleware<BaseException> = vi.fn((exc, next) => {
-			exc.message = exc.message + " second";
+			exc.message = `${exc.message} second`;
 			next();
 		});
 		const instanceMiddleware = vi.fn((_, next) => next());

@@ -1,5 +1,7 @@
 import { BaseException } from "../baseException/BaseException";
-import { TExceptionArgs, TMiddleware } from "../types";
+
+// types
+import type { TExceptionArgs, TMiddleware } from "../types";
 
 export class Exception extends BaseException {
 	protected instanceMiddlewares: TMiddleware<this>[] = [];
