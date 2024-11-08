@@ -7,7 +7,7 @@
 		"build": "tsup ./src",
 		"clean": "rm -rf ./lib/",
 		"prepare": "husky",
-		"lint": "biome . --fix",
+		"lint": "biome format --write --no-errors-on-unmatched && biome lint --write --no-errors-on-unmatched",
 		"typecheck": "tsc --noEmit",
 		"precommit": "lint-staged && npm test",
 		"cm": "git-cz",
