@@ -29,4 +29,12 @@ export default {
 			},
 		],
 	],
+	git: {
+		commitMessage: "chore(release): cut the v${version} release",
+		push: false,
+	},
+	hooks: {
+		"after:bump": ["npm run build"],
+		"after:release": "git push origin HEAD",
+	},
 };
