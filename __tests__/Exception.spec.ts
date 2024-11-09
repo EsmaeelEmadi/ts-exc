@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
-import { BaseException } from "../baseException/BaseException";
-import { Exception } from "../exception/Exception";
+import { BaseException } from "../src/core/baseException/BaseException";
+import { Exception } from "../src/core/exception/Exception";
 
 // types
-import type { TMiddleware } from "../types";
+import type { TMiddleware } from "../src/core/types";
 
 const mockMiddleware: TMiddleware<BaseException> = vi.fn((_, next) => {
 	next();
