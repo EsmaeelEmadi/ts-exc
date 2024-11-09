@@ -1,5 +1,12 @@
 
 
+## 0.0.2 (2024-11-09)
+
+
+### Bug Fixes
+
+* **setup:** remove `types` field from `package.json` ([148d2dc](https://github.com/EsmaeelEmadi/ts-exc/commit/148d2dc3936ceb796379b75fffd11ad06e078919))
+
 ## 0.0.1 (2024-11-08)
 
 

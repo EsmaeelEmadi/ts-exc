@@ -1,6 +1,6 @@
 {
 	"name": "ts-exc",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "typescript exception",
 	"type": "module",
 	"scripts": {
@@ -21,7 +21,10 @@
 		"type": "git",
 		"url": "git+https://github.com/EsmaeelEmadi/ts-exc.git"
 	},
-	"keywords": ["typescript", "exception"],
+	"keywords": [
+		"typescript",
+		"exception"
+	],
 	"author": "emad",
 	"license": "MIT",
 	"bugs": {
@@ -83,7 +86,10 @@
 			}
 		}
 	},
-	"files": ["dist", "package.json"],
+	"files": [
+		"dist",
+		"package.json"
+	],
 	"exports": {
 		".": {
 			"require": "./dist/index.js",
