@@ -14,7 +14,8 @@
 		"release": "release-it",
 		"test": "vitest --run",
 		"test:watch": "vitest --watch",
-		"coverage": "vitest run --coverage"
+		"coverage": "vitest run --coverage",
+		"prepublishOnly": "npm pack --dry-run"
 	},
 	"repository": {
 		"type": "git",
