@@ -1,0 +1,16 @@
+# Source files (not needed in published package)
+src/
+tsconfig.json
+biome.json
+lefthook.yml
+.gitignore
+
+# Dev tooling
+node_modules/
+.eslintrc*
+.prettierrc*
+
+# Test files
+*.test.ts
+*.spec.ts
+__tests__/

@@ -1,0 +1,57 @@
+{
+  "name": "@esmaeel_emadi/ts-exc",
+  "version": "0.1.0",
+  "description": "Type-safe HTTP exception DTOs for NestJS. 50+ status-code DTOs with Swagger decorators, middleware support, and a built-in generator.",
+  "license": "MIT",
+  "author": "emadi68moh@gmail.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EsmaeelEmadi/ts-exc"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./*": "./dist/*"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "generate:dtos": "npx tsx ./src/http/generator/generator.ts",
+    "format": "npx @biomejs/biome format --write .",
+    "lint": "npx @biomejs/biome lint --write .",
+    "check": "npx @biomejs/biome check --write .",
+    "hooks:install": "npx lefthook install",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "@nestjs/common": ">=10",
+    "@nestjs/swagger": ">=7"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.15",
+    "@nestjs/common": "^11.1.24",
+    "@nestjs/swagger": "^11.4.4",
+    "@types/node": "^25.9.1",
+    "lefthook": "^1.11.13",
+    "typescript": "^6.0.3"
+  },
+  "keywords": [
+    "nestjs",
+    "http",
+    "exception",
+    "dto",
+    "swagger",
+    "openapi",
+    "status-codes",
+    "error-handling"
+  ]
+}
