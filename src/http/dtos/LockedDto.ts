@@ -12,6 +12,7 @@ export class LockedDto extends HttpException {
 	statusCode = HttpStatus.LOCKED;
 
 	@ApiProperty({
+		type: String,
 		example: "Locked",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class LockedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "locked";
-		if (typeof errors === "string") {
-			super(HttpStatus.LOCKED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.LOCKED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.locked",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.LOCKED,
+			isArray ? "errors.locked" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

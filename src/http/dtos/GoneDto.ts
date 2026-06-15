@@ -12,6 +12,7 @@ export class GoneDto extends HttpException {
 	statusCode = HttpStatus.GONE;
 
 	@ApiProperty({
+		type: String,
 		example: "Gone",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class GoneDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "gone";
-		if (typeof errors === "string") {
-			super(HttpStatus.GONE, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.GONE, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.gone",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.GONE,
+			isArray ? "errors.gone" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

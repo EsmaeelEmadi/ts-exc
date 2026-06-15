@@ -24,8 +24,7 @@ export class PartialContentDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "partial content";
+		this.message = message ?? "partial content";
 		this.data = data;
 	}
 }

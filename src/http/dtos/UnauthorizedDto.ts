@@ -12,6 +12,7 @@ export class UnauthorizedDto extends HttpException {
 	statusCode = HttpStatus.UNAUTHORIZED;
 
 	@ApiProperty({
+		type: String,
 		example: "Unauthorized",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class UnauthorizedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "unauthorized";
-		if (typeof errors === "string") {
-			super(HttpStatus.UNAUTHORIZED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.UNAUTHORIZED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.unauthorized",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.UNAUTHORIZED,
+			isArray ? "errors.unauthorized" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

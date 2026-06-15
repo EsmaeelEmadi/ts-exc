@@ -12,6 +12,7 @@ export class UnprocessableEntityDto extends HttpException {
 	statusCode = HttpStatus.UNPROCESSABLE_ENTITY;
 
 	@ApiProperty({
+		type: String,
 		example: "UnprocessableEntity",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class UnprocessableEntityDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"unprocessable entity";
-		if (typeof errors === "string") {
-			super(HttpStatus.UNPROCESSABLE_ENTITY, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.UNPROCESSABLE_ENTITY, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.unprocessable_entity",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.UNPROCESSABLE_ENTITY,
+			isArray ? "errors.unprocessable_entity" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

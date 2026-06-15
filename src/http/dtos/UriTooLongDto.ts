@@ -12,6 +12,7 @@ export class UriTooLongDto extends HttpException {
 	statusCode = HttpStatus.URI_TOO_LONG;
 
 	@ApiProperty({
+		type: String,
 		example: "UriTooLong",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class UriTooLongDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "uri too long";
-		if (typeof errors === "string") {
-			super(HttpStatus.URI_TOO_LONG, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.URI_TOO_LONG, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.uri_too_long",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.URI_TOO_LONG,
+			isArray ? "errors.uri_too_long" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

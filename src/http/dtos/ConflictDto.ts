@@ -12,6 +12,7 @@ export class ConflictDto extends HttpException {
 	statusCode = HttpStatus.CONFLICT;
 
 	@ApiProperty({
+		type: String,
 		example: "Conflict",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class ConflictDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "conflict";
-		if (typeof errors === "string") {
-			super(HttpStatus.CONFLICT, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.CONFLICT, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.conflict",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.CONFLICT,
+			isArray ? "errors.conflict" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

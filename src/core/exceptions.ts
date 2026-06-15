@@ -3,39 +3,66 @@ import { BaseException } from "./baseException";
 import type { TMiddleware } from "./types";
 
 export abstract class Exception extends BaseException {
-	#instanceMiddlewares: TMiddleware<this>[] = [];
+  #instanceMiddlewares: TMiddleware<this>[] = [];
 
-	public push(middleware: TMiddleware<this>) {
-		this.#instanceMiddlewares.push(middleware);
-	}
+  /**
+   * Debug context attached to this exception.
+   *
+   * Stored on the instance directly (not in the response body), so it's
+   * available in server-side logs (`console.log`, structured loggers)
+   * but is NOT serialized in the HTTP response sent to the client.
+   *
+   * @example
+   *   return new InternalServerErrorDto()
+   *     .debug({ cause: dbError });
+   */
+  debug?: Record<string, unknown>;
 
-	private runMiddlewares() {
-		let index = -1;
+  /**
+   * Attach debug context to this exception.
+   *
+   * The provided info is merged into the `debug` property of the instance.
+   * This is useful for preserving the original error, request context, or
+   * any other diagnostic data that should not reach the client.
+   *
+   * @returns `this` for method chaining.
+   */
+  details(info: Record<string, unknown>): this {
+    this.debug = { ...this.debug, ...info };
+    return this;
+  }
 
-		const globalLength = BaseException.globalMiddlewares.length;
-		const instanceLength = this.#instanceMiddlewares.length;
-		const totalLength = globalLength + instanceLength;
+  public push(middleware: TMiddleware<this>) {
+    this.#instanceMiddlewares.push(middleware);
+  }
 
-		const next = () => {
-			index++;
-			if (index < totalLength) {
-				if (index < globalLength) {
-					BaseException.globalMiddlewares[index](this, next);
-				} else {
-					this.#instanceMiddlewares[index - globalLength](this, next);
-				}
-			}
-		};
+  private runMiddlewares() {
+    let index = -1;
 
-		next();
-	}
+    const globalLength = BaseException.globalMiddlewares.length;
+    const instanceLength = this.#instanceMiddlewares.length;
+    const totalLength = globalLength + instanceLength;
 
-	constructor(
-		response: string | Record<string, unknown>,
-		status: number,
-		options?: HttpExceptionOptions,
-	) {
-		super(response, status, options);
-		this.runMiddlewares();
-	}
+    const next = () => {
+      index++;
+      if (index < totalLength) {
+        if (index < globalLength) {
+          BaseException.globalMiddlewares[index](this, next);
+        } else {
+          this.#instanceMiddlewares[index - globalLength](this, next);
+        }
+      }
+    };
+
+    next();
+  }
+
+  constructor(
+    response: string | Record<string, unknown>,
+    status: number,
+    options?: HttpExceptionOptions,
+  ) {
+    super(response, status, options);
+    this.runMiddlewares();
+  }
 }

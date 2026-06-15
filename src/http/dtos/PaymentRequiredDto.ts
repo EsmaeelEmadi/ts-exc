@@ -12,6 +12,7 @@ export class PaymentRequiredDto extends HttpException {
 	statusCode = HttpStatus.PAYMENT_REQUIRED;
 
 	@ApiProperty({
+		type: String,
 		example: "PaymentRequired",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class PaymentRequiredDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"payment required";
-		if (typeof errors === "string") {
-			super(HttpStatus.PAYMENT_REQUIRED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.PAYMENT_REQUIRED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.payment_required",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.PAYMENT_REQUIRED,
+			isArray ? "errors.payment_required" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

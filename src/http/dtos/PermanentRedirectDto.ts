@@ -24,8 +24,7 @@ export class PermanentRedirectDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "permanent redirect";
+		this.message = message ?? "permanent redirect";
 		this.data = data;
 	}
 }

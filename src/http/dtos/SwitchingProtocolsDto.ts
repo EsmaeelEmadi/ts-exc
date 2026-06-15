@@ -24,8 +24,7 @@ export class SwitchingProtocolsDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "switching protocols";
+		this.message = message ?? "switching protocols";
 		this.data = data;
 	}
 }

@@ -12,6 +12,7 @@ export class HttpVersionNotSupportedDto extends HttpException {
 	statusCode = HttpStatus.HTTP_VERSION_NOT_SUPPORTED;
 
 	@ApiProperty({
+		type: String,
 		example: "HttpVersionNotSupported",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class HttpVersionNotSupportedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"http version not supported";
-		if (typeof errors === "string") {
-			super(HttpStatus.HTTP_VERSION_NOT_SUPPORTED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.HTTP_VERSION_NOT_SUPPORTED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.http_version_not_supported",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.HTTP_VERSION_NOT_SUPPORTED,
+			isArray ? "errors.http_version_not_supported" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

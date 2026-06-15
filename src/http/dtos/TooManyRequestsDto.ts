@@ -12,6 +12,7 @@ export class TooManyRequestsDto extends HttpException {
 	statusCode = HttpStatus.TOO_MANY_REQUESTS;
 
 	@ApiProperty({
+		type: String,
 		example: "TooManyRequests",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class TooManyRequestsDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"too many requests";
-		if (typeof errors === "string") {
-			super(HttpStatus.TOO_MANY_REQUESTS, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.TOO_MANY_REQUESTS, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.too_many_requests",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.TOO_MANY_REQUESTS,
+			isArray ? "errors.too_many_requests" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

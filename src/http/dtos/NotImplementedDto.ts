@@ -12,6 +12,7 @@ export class NotImplementedDto extends HttpException {
 	statusCode = HttpStatus.NOT_IMPLEMENTED;
 
 	@ApiProperty({
+		type: String,
 		example: "NotImplemented",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class NotImplementedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"not implemented";
-		if (typeof errors === "string") {
-			super(HttpStatus.NOT_IMPLEMENTED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.NOT_IMPLEMENTED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.not_implemented",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.NOT_IMPLEMENTED,
+			isArray ? "errors.not_implemented" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

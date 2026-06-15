@@ -12,6 +12,7 @@ export class IAmATeapotDto extends HttpException {
 	statusCode = HttpStatus.I_AM_A_TEAPOT;
 
 	@ApiProperty({
+		type: String,
 		example: "IAmATeapot",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class IAmATeapotDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "i am a teapot";
-		if (typeof errors === "string") {
-			super(HttpStatus.I_AM_A_TEAPOT, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.I_AM_A_TEAPOT, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.i_am_a_teapot",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.I_AM_A_TEAPOT,
+			isArray ? "errors.i_am_a_teapot" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

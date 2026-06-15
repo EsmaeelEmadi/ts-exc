@@ -10,6 +10,7 @@ export class NonAuthoritativeInformationDto<T = unknown> {
 	statusCode = HttpStatus.NON_AUTHORITATIVE_INFORMATION;
 
 	@ApiProperty({
+		type: String,
 		example: "non-authoritative information",
 		description: "Success message",
 	})
@@ -23,9 +24,7 @@ export class NonAuthoritativeInformationDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ??
-			"non-authoritative information";
+		this.message = message ?? "non-authoritative information";
 		this.data = data;
 	}
 }

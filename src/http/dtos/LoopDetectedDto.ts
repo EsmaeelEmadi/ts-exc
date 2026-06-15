@@ -12,6 +12,7 @@ export class LoopDetectedDto extends HttpException {
 	statusCode = HttpStatus.LOOP_DETECTED;
 
 	@ApiProperty({
+		type: String,
 		example: "LoopDetected",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class LoopDetectedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "loop detected";
-		if (typeof errors === "string") {
-			super(HttpStatus.LOOP_DETECTED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.LOOP_DETECTED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.loop_detected",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.LOOP_DETECTED,
+			isArray ? "errors.loop_detected" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

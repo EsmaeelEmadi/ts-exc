@@ -12,6 +12,7 @@ export class UnsupportedMediaTypeDto extends HttpException {
 	statusCode = HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
 	@ApiProperty({
+		type: String,
 		example: "UnsupportedMediaType",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class UnsupportedMediaTypeDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"unsupported media type";
-		if (typeof errors === "string") {
-			super(HttpStatus.UNSUPPORTED_MEDIA_TYPE, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.UNSUPPORTED_MEDIA_TYPE, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.unsupported_media_type",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.UNSUPPORTED_MEDIA_TYPE,
+			isArray ? "errors.unsupported_media_type" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

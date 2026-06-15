@@ -10,6 +10,7 @@ export class MultiStatusDto<T = unknown> {
 	statusCode = HttpStatus.MULTI_STATUS;
 
 	@ApiProperty({
+		type: String,
 		example: "multi-status",
 		description: "Success message",
 	})

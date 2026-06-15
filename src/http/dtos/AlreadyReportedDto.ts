@@ -24,8 +24,7 @@ export class AlreadyReportedDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "already reported";
+		this.message = message ?? "already reported";
 		this.data = data;
 	}
 }

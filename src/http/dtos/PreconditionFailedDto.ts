@@ -12,6 +12,7 @@ export class PreconditionFailedDto extends HttpException {
 	statusCode = HttpStatus.PRECONDITION_FAILED;
 
 	@ApiProperty({
+		type: String,
 		example: "PreconditionFailed",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class PreconditionFailedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"precondition failed";
-		if (typeof errors === "string") {
-			super(HttpStatus.PRECONDITION_FAILED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.PRECONDITION_FAILED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.precondition_failed",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.PRECONDITION_FAILED,
+			isArray ? "errors.precondition_failed" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

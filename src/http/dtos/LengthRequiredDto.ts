@@ -12,6 +12,7 @@ export class LengthRequiredDto extends HttpException {
 	statusCode = HttpStatus.LENGTH_REQUIRED;
 
 	@ApiProperty({
+		type: String,
 		example: "LengthRequired",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class LengthRequiredDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"length required";
-		if (typeof errors === "string") {
-			super(HttpStatus.LENGTH_REQUIRED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.LENGTH_REQUIRED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.length_required",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.LENGTH_REQUIRED,
+			isArray ? "errors.length_required" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

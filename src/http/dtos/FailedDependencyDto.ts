@@ -12,6 +12,7 @@ export class FailedDependencyDto extends HttpException {
 	statusCode = HttpStatus.FAILED_DEPENDENCY;
 
 	@ApiProperty({
+		type: String,
 		example: "FailedDependency",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class FailedDependencyDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"failed dependency";
-		if (typeof errors === "string") {
-			super(HttpStatus.FAILED_DEPENDENCY, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.FAILED_DEPENDENCY, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.failed_dependency",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.FAILED_DEPENDENCY,
+			isArray ? "errors.failed_dependency" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

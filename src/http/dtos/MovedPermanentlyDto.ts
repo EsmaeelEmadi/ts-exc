@@ -24,8 +24,7 @@ export class MovedPermanentlyDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "moved permanently";
+		this.message = message ?? "moved permanently";
 		this.data = data;
 	}
 }

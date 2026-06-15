@@ -12,6 +12,7 @@ export class BadGatewayDto extends HttpException {
 	statusCode = HttpStatus.BAD_GATEWAY;
 
 	@ApiProperty({
+		type: String,
 		example: "BadGateway",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class BadGatewayDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "bad gateway";
-		if (typeof errors === "string") {
-			super(HttpStatus.BAD_GATEWAY, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.BAD_GATEWAY, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.bad_gateway",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.BAD_GATEWAY,
+			isArray ? "errors.bad_gateway" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

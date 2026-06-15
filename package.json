@@ -1,6 +1,6 @@
 {
   "name": "@esmaeel_emadi/ts-exc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Type-safe HTTP exception DTOs for NestJS. 50+ status-code DTOs with Swagger decorators, middleware support, and a built-in generator.",
   "license": "MIT",
   "author": "emadi68moh@gmail.com",
@@ -38,11 +38,17 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
-    "@nestjs/common": "^11.1.24",
     "@nestjs/swagger": "^11.4.4",
     "@types/node": "^25.9.1",
+    "case-anything": "^3.1.2",
     "lefthook": "^1.11.13",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "@nestjs/common": "11.1.26"
+    }
   },
   "keywords": [
     "nestjs",

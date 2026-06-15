@@ -12,6 +12,7 @@ export class ServiceUnavailableDto extends HttpException {
 	statusCode = HttpStatus.SERVICE_UNAVAILABLE;
 
 	@ApiProperty({
+		type: String,
 		example: "ServiceUnavailable",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class ServiceUnavailableDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"service unavailable";
-		if (typeof errors === "string") {
-			super(HttpStatus.SERVICE_UNAVAILABLE, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.SERVICE_UNAVAILABLE, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.service_unavailable",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.SERVICE_UNAVAILABLE,
+			isArray ? "errors.service_unavailable" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

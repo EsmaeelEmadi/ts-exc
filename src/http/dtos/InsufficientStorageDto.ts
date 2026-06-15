@@ -12,6 +12,7 @@ export class InsufficientStorageDto extends HttpException {
 	statusCode = HttpStatus.INSUFFICIENT_STORAGE;
 
 	@ApiProperty({
+		type: String,
 		example: "InsufficientStorage",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class InsufficientStorageDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"insufficient storage";
-		if (typeof errors === "string") {
-			super(HttpStatus.INSUFFICIENT_STORAGE, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.INSUFFICIENT_STORAGE, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.insufficient_storage",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.INSUFFICIENT_STORAGE,
+			isArray ? "errors.insufficient_storage" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

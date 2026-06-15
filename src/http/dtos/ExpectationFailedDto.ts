@@ -12,6 +12,7 @@ export class ExpectationFailedDto extends HttpException {
 	statusCode = HttpStatus.EXPECTATION_FAILED;
 
 	@ApiProperty({
+		type: String,
 		example: "ExpectationFailed",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class ExpectationFailedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"expectation failed";
-		if (typeof errors === "string") {
-			super(HttpStatus.EXPECTATION_FAILED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.EXPECTATION_FAILED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.expectation_failed",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.EXPECTATION_FAILED,
+			isArray ? "errors.expectation_failed" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

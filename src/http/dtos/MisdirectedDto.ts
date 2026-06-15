@@ -12,6 +12,7 @@ export class MisdirectedDto extends HttpException {
 	statusCode = HttpStatus.MISDIRECTED;
 
 	@ApiProperty({
+		type: String,
 		example: "Misdirected",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class MisdirectedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"misdirected request";
-		if (typeof errors === "string") {
-			super(HttpStatus.MISDIRECTED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.MISDIRECTED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.misdirected",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.MISDIRECTED,
+			isArray ? "errors.misdirected" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

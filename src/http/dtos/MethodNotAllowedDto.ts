@@ -12,6 +12,7 @@ export class MethodNotAllowedDto extends HttpException {
 	statusCode = HttpStatus.METHOD_NOT_ALLOWED;
 
 	@ApiProperty({
+		type: String,
 		example: "MethodNotAllowed",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class MethodNotAllowedDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"method not allowed";
-		if (typeof errors === "string") {
-			super(HttpStatus.METHOD_NOT_ALLOWED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.METHOD_NOT_ALLOWED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.method_not_allowed",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.METHOD_NOT_ALLOWED,
+			isArray ? "errors.method_not_allowed" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

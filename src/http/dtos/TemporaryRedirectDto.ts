@@ -24,8 +24,7 @@ export class TemporaryRedirectDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "temporary redirect";
+		this.message = message ?? "temporary redirect";
 		this.data = data;
 	}
 }

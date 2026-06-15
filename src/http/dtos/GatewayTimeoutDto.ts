@@ -12,6 +12,7 @@ export class GatewayTimeoutDto extends HttpException {
 	statusCode = HttpStatus.GATEWAY_TIMEOUT;
 
 	@ApiProperty({
+		type: String,
 		example: "GatewayTimeout",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class GatewayTimeoutDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"gateway timeout";
-		if (typeof errors === "string") {
-			super(HttpStatus.GATEWAY_TIMEOUT, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.GATEWAY_TIMEOUT, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.gateway_timeout",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.GATEWAY_TIMEOUT,
+			isArray ? "errors.gateway_timeout" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

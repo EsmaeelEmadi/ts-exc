@@ -12,6 +12,7 @@ export class NotAcceptableDto extends HttpException {
 	statusCode = HttpStatus.NOT_ACCEPTABLE;
 
 	@ApiProperty({
+		type: String,
 		example: "NotAcceptable",
 		description: "Error Name",
 	})
@@ -27,16 +28,21 @@ export class NotAcceptableDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage = "not acceptable";
-		if (typeof errors === "string") {
-			super(HttpStatus.NOT_ACCEPTABLE, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.NOT_ACCEPTABLE, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.not_acceptable",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.NOT_ACCEPTABLE,
+			isArray ? "errors.not_acceptable" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }

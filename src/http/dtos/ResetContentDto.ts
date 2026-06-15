@@ -24,8 +24,7 @@ export class ResetContentDto<T = unknown> {
 	data?: T;
 
 	constructor(data?: T, message?: string) {
-		this.message =
-			message ?? "reset content";
+		this.message = message ?? "reset content";
 		this.data = data;
 	}
 }

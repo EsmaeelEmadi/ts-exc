@@ -12,6 +12,7 @@ export class ProxyAuthenticationRequiredDto extends HttpException {
 	statusCode = HttpStatus.PROXY_AUTHENTICATION_REQUIRED;
 
 	@ApiProperty({
+		type: String,
 		example: "ProxyAuthenticationRequired",
 		description: "Error Name",
 	})
@@ -27,17 +28,21 @@ export class ProxyAuthenticationRequiredDto extends HttpException {
 	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto],
+		type: [ValidationErrorDto]
 	})
 	errors?: ValidationErrorDto[];
 
-	constructor(errors?: ValidationErrorDto[] | string) {
-		const defaultMessage =
-			"proxy authentication required";
-		if (typeof errors === "string") {
-			super(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, errors ?? defaultMessage);
-		} else {
-			super(HttpStatus.PROXY_AUTHENTICATION_REQUIRED, defaultMessage, errors);
-		}
+	constructor(errors: ValidationErrorDto[]);
+	constructor(message: string, errors?: ValidationErrorDto[]);
+	constructor(
+		messageOrErrors: string | ValidationErrorDto[] = "errors.proxy_authentication_required",
+		errors?: ValidationErrorDto[],
+	) {
+		const isArray = Array.isArray(messageOrErrors);
+		super(
+			HttpStatus.PROXY_AUTHENTICATION_REQUIRED,
+			isArray ? "errors.proxy_authentication_required" : messageOrErrors,
+			isArray ? messageOrErrors : errors,
+		);
 	}
 }
