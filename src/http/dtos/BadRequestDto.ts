@@ -19,16 +19,9 @@ export class BadRequestDto extends HttpException {
 	error = "BadRequest";
 
 	@ApiProperty({
-		type: String,
-		example: "bad request",
-		description: "Error message",
-	})
-	message = "bad request";
-
-	@ApiProperty({
 		description: "Additional error details",
 		required: false,
-		type: [ValidationErrorDto]
+		type: [ValidationErrorDto],
 	})
 	errors?: ValidationErrorDto[];
 
@@ -44,5 +37,8 @@ export class BadRequestDto extends HttpException {
 			isArray ? "errors.bad_request" : messageOrErrors,
 			isArray ? messageOrErrors : errors,
 		);
+		// Explicitly set message to the string so the NestJS logger and
+		// other consumers get the translation key, not the response object.
+		this.message = isArray ? "errors.bad_request" : messageOrErrors;
 	}
 }
