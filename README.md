@@ -1,4 +1,4 @@
-# @esmaeel_emadi/ts-exc
+# @wrk-t/ts-exc
 
 Type-safe HTTP exception and response DTOs for NestJS.
 
@@ -8,7 +8,7 @@ middleware support, and a built-in generator to regenerate DTOs from a status-co
 ## Install
 
 ```bash
-pnpm add @esmaeel_emadi/ts-exc
+pnpm add @wrk-t/ts-exc
 ```
 
 Peer dependencies:
@@ -18,7 +18,7 @@ Peer dependencies:
 ## Usage
 
 ```ts
-import { OkDto, CreatedDto, NotFoundDto, BadRequestDto } from "@esmaeel_emadi/ts-exc";
+import { OkDto, CreatedDto, NotFoundDto, BadRequestDto } from "@wrk-t/ts-exc";
 
 // In controllers:
 @Get(":id")
@@ -49,7 +49,7 @@ async create(@Body() data: CreateDto) {
 ## Middleware
 
 ```ts
-import { BaseException } from "@esmaeel_emadi/ts-exc";
+import { BaseException } from "@wrk-t/ts-exc";
 
 BaseException.use((exc, next) => {
   console.log(`[${exc.name}] ${exc.message}`);

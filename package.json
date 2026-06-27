@@ -1,12 +1,12 @@
 {
-  "name": "@esmaeel_emadi/ts-exc",
+  "name": "@wrk-t/ts-exc",
   "version": "0.2.0",
   "description": "Type-safe HTTP exception DTOs for NestJS. 50+ status-code DTOs with Swagger decorators, middleware support, and a built-in generator.",
   "license": "MIT",
   "author": "emadi68moh@gmail.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EsmaeelEmadi/ts-exc"
+    "url": "https://github.com/wrk-t/ts-exc"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
